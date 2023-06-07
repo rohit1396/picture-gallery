@@ -4,26 +4,29 @@ import { clientKey } from "./data";
 import Photo from "./Photo";
 
 const clientID = `?client_id=${clientKey}`;
+const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("fruit");
+  const [query, setQuery] = useState("");
 
   const getPictures = async () => {
     setLoading(true);
     let url;
     const urlPage = `&page=${page}`;
     const urlQuery = `&query=${query}`;
-    url = `${searchUrl}${clientID}${urlPage}${urlQuery}`;
+    if (query) {
+      url = `${searchUrl}${clientID}${urlPage}${urlQuery}`;
+    } else {
+      url = `${mainUrl}${clientID}${urlPage}`;
+    }
     try {
       const response = await fetch(url);
       const data = await response.json();
       setPhotos(data.results);
-      console.log(data);
-      console.log(photos);
       setLoading(false);
     } catch (error) {
       console.log(error.message);
@@ -62,7 +65,7 @@ function App() {
       </section>
       {/* photo section */}
       <section className="photos">
-        {photos.map((photo) => {
+        {photos?.map((photo) => {
           return <Photo key={photo.id} photo={photo} />;
         })}
       </section>
