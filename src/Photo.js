@@ -22,7 +22,7 @@ const Photo = ({ photo }) => {
         <span className="photo-tag">Author : </span>
         {photo?.user?.name}
       </p>
-      <a href={photo?.links?.html} target="_blank" rel="noreferer">
+      <a href={photo?.links?.html} target="_blank" rel="noopener">
         See Original
       </a>
     </div>
